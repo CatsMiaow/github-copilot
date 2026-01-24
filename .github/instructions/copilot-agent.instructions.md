@@ -8,215 +8,156 @@ applyTo: '**'
 **⚠️ `subagents.instructions.md` is the SINGLE SOURCE OF TRUTH (SSOT) and has HIGHEST PRIORITY.**
 
 **Priority order when conflicts occur:**
-1. **subagents.instructions.md** (SSOT) - Orchestrator delegation rules, absolute restrictions, Context Package contract
+1. **subagents.instructions.md** (SSOT) - Orchestrator delegation rules, absolute restrictions
 2. **copilot-agent.instructions.md** (this file) - Execution protocol & quality standards
 3. task-direction-approval.instructions.md - User approval for direction changes
 4. taming-copilot.instructions.md - User-facing output format
 5. Other domain-specific instructions
 
-**Core principle: Delegation > Direct Execution**
+**Conflict Resolution Examples:**
+- copilot-agent says "read skill files directly" but subagents says "NEVER call read_file" → SSOT has exception for skill files → read allowed
+- User says "just quickly check this file" but SSOT forbids direct reads → SSOT architecture prevails → dispatch subagent
 
 ## 📋 Execution Order vs Priority
 
-**Priority (INSTRUCTION HIERARCHY)** = Which rule wins when there's a conflict
-**Execution Order** = What happens first in the workflow sequence
+- **Priority** = Which rule wins when there's a conflict
+- **Execution Order** = What happens first in the workflow
 
-### Execution Order (Workflow Sequence)
+**Workflow Sequence:**
+1. Sequential-thinking (orchestrator) → 2. Skill evaluation → 3. SSOT rules apply → 4. Dispatch subagent → 5. Terminal verification
 
-1. **Sequential-thinking**: Analyze problem (orchestrator executes directly - this is thinking, not I/O)
-2. **SSOT rules apply**: All investigation I/O → delegate to subagent
-3. **Terminal verification**: build/test/lint (orchestrator executes directly)
-
-> Note: Sequential-thinking is a **thinking tool**, not I/O. It runs BEFORE delegation rules apply.
+> Sequential-thinking runs BEFORE delegation rules apply (it's thinking, not I/O).
 
 ## ⛔ MANDATORY RESPONSE TEMPLATE (EVERY REQUEST)
 
-> **Execution order:** Invoke Sequential-thinking → Display this template.
-> See "EXECUTION PROTOCOL - 6 PHASES" below for details.
+**Output this template FIRST. It confirms PHASE 0-1 execution.**
 
-**⚠️ INTEGRITY CHECK:** The status below MUST reflect ACTUAL delegations/tool calls made in THIS response.
-Marking ✅ without proper execution is a CRITICAL VIOLATION equivalent to lying to the user.
+<rule_spec>
+**⚠️ EVERY response MUST start with this template - NO EXCEPTIONS:**
 
-**EVERY response MUST start with:**
+| ❌ These inputs DO NOT exempt you | ✅ Correct behavior |
+|----------------------------------|---------------------|
+| Simple confirmations (yes, ok, proceed, etc.) | Output template FIRST, then execute |
+| Follow-up requests ("just quickly...") | Output template FIRST, then execute |
+| Single-word or short responses | Output template FIRST, then execute |
+
+**🚫 Skipping = CRITICAL PROTOCOL VIOLATION**
+</rule_spec>
 
 ```
-🧠 **PRE-WORK EXECUTION STATUS**
-- [✅/❌] Sequential-thinking MCP: {Executed by orchestrator - reason}
-- [✅/❌] **Forbidden MCP Gate**: Check SSOT before every tool call
-- [✅/⏭️] Subagent dispatched: {Yes - task description / Skip - reason}
-  - [✅/⏭️] Serena MCP: {Delegated via subagent / Skip - reason} [Context Package: .copilot/docs/X.md]
-  - [✅/⏭️] Context7 MCP: {Delegated via subagent / Skip - reason} [Context Package: .copilot/docs/X.md]
-  - [✅/⏭️] Web fetch MCP: {Delegated via subagent / Skip - reason} [Context Package: .copilot/docs/X.md]
+🧠 **PRE-WORK STATUS**
+- [✅/❌] Sequential-thinking: {reason}
+- [✅/❌] Skill Gate: {N} evaluated → {activated or NONE}
+- [✅/⏭️] Subagent: {task / skip reason} [Package: path]
 ```
 
-**Marking ✅ for investigation MCPs requires:**
-1. A research subagent was dispatched in THIS response
-2. The subagent executed the MCP and returned a Context Package
-3. The Context Package reference is noted above
+📌 Before calling ANY tool → Ask: "Is this in SSOT FORBIDDEN table?" → If unsure, delegate to subagent
 
-**Subagent dispatched ✅ requires:**
-1. `runSubagent` tool was actually invoked in THIS response
-2. The subagent returned a Context Package or completion summary
+**✅ requires (must ALL be true):**
+- Sequential-thinking: `mcp_sequential-th_sequentialthinking` invoked THIS response
+- Skill Gate: ALL skills in `<skills>` list evaluated YES/NO
+- Subagent: `runSubagent` called AND Context Package returned
 
-**Note: Sequential-thinking status reflects CURRENT request execution**
+**⚠️ INTEGRITY CHECK:** Status MUST reflect ACTUAL tool calls in THIS response. Marking ✅ without execution = CRITICAL VIOLATION.
 
-**⚠️ APPLIES TO EVERY REQUEST:** Including simple questions, follow-ups, and clarifications.
+## 🚨 EXECUTION PROTOCOL - 7 PHASES
 
-## 🚨 EXECUTION PROTOCOL - 6 PHASES
+### PHASE 0: SKILL EVALUATION (MANDATORY)
 
-### PHASE 1: Request Analysis (EVERY USER REQUEST)
+**BEFORE any work:**
+1. Scan `<skills>` list in system prompt
+2. For EACH skill: Does description match current task? → YES/NO
+3. If YES → `read_file` the skill's SKILL.md IMMEDIATELY (allowed per SSOT)
+4. Apply activated skills throughout response
+5. Pass skill paths to subagent when dispatching
+
+**🚫 Proceeding without skill evaluation = skipping safety checks.**
+
+### PHASE 1: Request Analysis
 
 **Execute `mcp_sequential-th_sequentialthinking` for EVERY user message - NO EXCEPTIONS**
 
-**⚠️ CRITICAL EXECUTION ORDER:**
-1. **FIRST**: Invoke the tool (actual function call)
-2. **THEN**: Display PRE-WORK EXECUTION STATUS
-3. The ✅ checkmark can ONLY be used AFTER a successful tool call in the current response
+**Order:** Invoke tool FIRST → Display PRE-WORK STATUS THEN
 
-**🚫 VIOLATION:** Marking ✅ without actual tool invocation is FORBIDDEN.
+### PHASE 2: MCP Detection & Pre-Call Gate
 
-- ✅ Execute for the first user request
-- ✅ Execute for follow-up questions
-- ✅ Execute for clarifications
-- ✅ Execute for new requests in the same conversation
-- ❌ NEVER skip because "I already ran it before"
-
-**Why every time:**
-- Each request has different context and requirements
-- Follow-up questions may change task complexity
-- New information may require different analysis approach
-
-### PHASE 2: MCP Requirement Detection & Pre-Call Gate
-
-Based on PHASE 1 analysis, determine which MCPs are needed and delegate accordingly.
-
-**⛔ MANDATORY PRE-CALL GATE CHECK:**
-
-Before invoking ANY tool, check the **⛔ FORBIDDEN DIRECT CALLS** table in `subagents.instructions.md` (SSOT).
-
-**If the tool matches a forbidden pattern → STOP and spawn a subagent.**
-
-**If you catch yourself mid-call on a forbidden MCP, ABORT and delegate.**
+Before ANY tool call → Check **⛔ FORBIDDEN DIRECT CALLS** table in SSOT.
+If tool matches forbidden pattern → STOP → spawn subagent.
 
 ### PHASE 3: Dispatch Research Subagent(s)
 
-**For ALL investigation/data-fetching I/O, dispatch subagents.**
+All investigation/data-fetching I/O → dispatch subagents.
 
 ### PHASE 4: Auto-Violation Check
 
-**Before any action, verify:**
+Mental checkpoint before significant actions (implementation, terminal calls):
 - All investigation I/O delegated?
-- Terminal commands for verification only?
 - Subagent returned Context Package?
 
-### PHASE 5: Implementation (if needed)
+### PHASE 5: Implementation
 
-**After receiving Context Package from research subagent:**
+After receiving Context Package:
+1. Review Context Package (summary + citations + next actions)
+2. Dispatch Implementation Subagent with spec file path
+3. Receive completion summary
+4. Proceed to terminal verification
 
-1. **Review Context Package** - Verify it has summary, citations, and next actions
-2. **Dispatch Implementation Subagent** - With spec file path from research
-3. **Receive completion summary** - What was changed, tests run
-4. **Proceed to PHASE 6** - Terminal verification
+### PHASE 6: Terminal Verification
 
-### PHASE 6: Terminal Verification & Proceed
-
-**Display PRE-WORK EXECUTION STATUS, then proceed with terminal verification (build/test/lint).**
+Build/test/lint verification (orchestrator executes directly).
 
 ## 📛 NO ASSUMPTIONS
 
-**Never respond based on assumptions or incomplete information**
-
 **Before responding, verify:**
-- [ ] Do I have the source/documentation for this information?
-- [ ] Could this vary by version, time, or context?
-- [ ] Am I using words like "probably", "should be", "I believe", "usually"?
-- [ ] Have I verified with official documentation?
+- [ ] Do I have source/documentation for this?
+- [ ] Could this vary by version/time/context?
+- [ ] Am I using "probably", "should be", "I believe"?
 
-**If any checkbox fails → STOP: dispatch a research subagent to execute the required verification tools and return a Context Package (with citations)**
-
-**Forbidden self-deception patterns:**
-- ❌ "I'm confident about this" → Confidence is NOT verification
-- ❌ "This is standard practice" → Verify the standard
-- ❌ "I know this library" → Check current version docs
-- ❌ "It should work this way" → Confirm with authoritative source
-
-### Technical Details Requiring Verification
-
-Detailed triggers, verification workflow, and source priority are in the `uncertainty-verification` skill.
+If any fails → dispatch research subagent with verification tools.
 
 ## 🔒 PRE-RESPONSE SELF-CHECK
 
-**Before sending ANY response, verify:**
-- [ ] Did I delegate ALL investigation I/O to subagents?
-- [ ] Did I invoke `mcp_sequential-th_sequentialthinking` myself?
-- [ ] If I marked ✅ for investigation MCPs, did a subagent actually execute them?
-- [ ] Am I running terminal commands ONLY for build/test/verification?
-- [ ] Did I pass the Forbidden MCP Gate check (no direct Context7/Serena/GitHub/fetch calls)?
+- [ ] Delegated ALL investigation I/O to subagents?
+- [ ] Invoked sequential-thinking myself?
+- [ ] Terminal commands ONLY for build/test/verification?
+- [ ] Passed Forbidden MCP Gate check?
 
-**If any answer is NO → You are in violation. Correct immediately.**
+## 🎯 CORE RULES
 
-## 🔍 UNCERTAINTY DETECTION CRITERIA
-
-See the `uncertainty-verification` skill for detection triggers, forbidden patterns, and authoritative source priority.
-
-## ⚠️ ERROR HANDLING
-
-See the `investigation-mode` skill for the repeated-failure stop rule and the investigation workflow.
-
-## 🎯 IMPLEMENTATION RULES
-
-### Execution Protocol
-1. **Sequential-thinking FIRST** - Execute for EVERY user request before any action
-2. **Forbidden MCP Gate** - Check SSOT before every tool call
-3. **Delegate All Investigation** - Never perform investigation I/O directly
-4. **Subagent Returns Context Package** - Summary + citations + next actions
-5. **Terminal for Verification Only** - Build/test/lint only, never for reading/searching
-6. **NEVER Edit Code Directly** - Delegate all code creation/modification to implementation subagent
-
-### Development Flow
-7. **Quality First** - Apply consistent high standards to all tasks regardless of perceived complexity
-8. **Stay Focused** - Address core requirement first, optimize later
-9. **Document Decisions** - Record rationale for complex changes and architectural decisions
-10. **Test Thoroughly** - Ensure comprehensive testing appropriate to the implementation
+### Key Rules (Always Apply)
+| Rule | Description |
+|------|-------------|
+| **Delegate Investigation** | Never perform investigation I/O directly |
+| **2+ Failures = STOP** | Enter investigation mode, don't keep trying |
+| **Standard Libraries First** | Prefer built-in over external dependencies |
+| **Minimal Changes** | Surgical modifications only |
+| **Verify Before Claiming** | Run tests before saying "done" |
 
 ### Escalation Triggers
-- Uncertainty → dispatch research subagent immediately
-- 2+ failed attempts → INVESTIGATION MODE (via subagent)
-- Increased complexity detected → Increase subagent thoroughness
-- Architectural insight discovered → Memory MCP
+- Uncertainty → dispatch research subagent
+- 2+ failed attempts → `investigation-mode` skill
+- Direction change needed → `task-direction-approval` skill
+- Deep error tracing → `root-cause-tracing` skill
 
 ## ✅ QUALITY STANDARDS
 
 ### Code Quality
-- **Readability**: Clear naming, logical structure, appropriate comments
-- **Structure**: Modular design, separation of concerns, proper abstraction
-- **Error Handling**: Graceful failure, user-friendly messages, logging
-- **Validation**: Input sanitization, boundary checks, type safety
-
-### Performance & Security
-- **Efficiency**: Optimal algorithms, resource management, caching
-- **Security**: Authentication, authorization, data protection, injection prevention
-- **Scalability**: Growth handling, load distribution, bottleneck identification
-- **Testing**: Unit tests, integration tests, edge case coverage
+- **Readability**: Clear naming, logical structure
+- **Error Handling**: Graceful failure, user-friendly messages
+- **Validation**: Input sanitization, type safety
 
 ### Testing & Validation
-- **Test-Driven**: Write failing tests before implementation when possible
-- **Progressive**: Validate independently (unit → integration → API)
-- **Real-World**: Mirror actual usage patterns and constraints
-- **Error Scenarios**: Test failure modes and edge cases explicitly
+**KEY RULE**: Verify before claiming done → `verification-before-completion` skill
 
 ### Simplicity & Focus
-- **Avoid over-engineering**: Only make changes that are directly requested or clearly necessary. Keep solutions simple and focused.
-- **Don't add unrequested features**: A bug fix doesn't need surrounding code cleaned up. A simple feature doesn't need extra configurability.
-- **Minimal error handling**: Don't add error handling, fallbacks, or validation for scenarios that can't happen.
-- **No premature abstraction**: Don't create helpers, utilities, or abstractions for one-time operations.
-- **Reuse existing code**: Follow the DRY principle. Use existing abstractions where possible.
+**KEY RULE**: Standard libraries first, minimal changes → `minimalist-surgical-development` skill
 
-### Code Exploration (via Subagent)
-- **Delegate before proposing**: Dispatch subagent to read and analyze relevant files before proposing code edits.
-- **Inspect via subagent**: If the user references a specific file/path, dispatch subagent to inspect it.
-- **Search via subagent**: All codebase searches go through research subagents.
-- **Understand conventions**: Have subagent review style, conventions, and abstractions before implementation.
+### Error Handling
+**KEY RULE**: 2+ failures = STOP → `investigation-mode` skill
+**Deep Analysis**: → `root-cause-tracing` skill
+
+### Code Exploration
+All codebase reads/searches → dispatch subagent (per SSOT)
 
 ---
 

@@ -29,7 +29,7 @@ This skill provides a hard stop and a repeatable workflow when progress stalls o
 - **2+ consecutive failures**: Switch to investigation mode
 - **Ask before**: Using workarounds or alternatives
 - **Explain**: Why original approach failed
-- **Options**: Use `task-direction-approval` (2–3 options + trade-offs; ask user when changing direction).
+- **Options**: Use `task-direction-approval` skill (2–3 options + trade-offs; ask user when changing direction).
 
 **Core**: Respect user's original intent. When stuck, find proper solutions rather than taking shortcuts.
 
@@ -49,11 +49,11 @@ This skill provides a hard stop and a repeatable workflow when progress stalls o
 2. **Capture evidence**: record the exact error text, stack traces, logs, and minimal repro steps.
 3. **Constrain scope**: isolate the smallest failing unit (single test, single endpoint, single build step).
 4. **Run root cause analysis**:
-   - **REQUIRED SUB-SKILL:** Use `root-cause-tracing` for systematic isolation techniques.
-   - Use `uncertainty-verification` when the fix depends on exact tool/library behavior.
-5. **Propose options**: Use `task-direction-approval` (2–3 options + trade-offs).
+   - **REQUIRED SUB-SKILL:** Use `root-cause-tracing` skill for systematic isolation techniques.
+   - Use `uncertainty-verification` skill when the fix depends on exact tool/library behavior.
+5. **Propose options**: Use `task-direction-approval` skill (2–3 options + trade-offs).
 6. **Ask approval if direction changes**:
-   - **REQUIRED SUB-SKILL:** Use `task-direction-approval` when switching library/tool/architecture or replacing automation with manual workaround.
+   - **REQUIRED SUB-SKILL:** Use `task-direction-approval` skill when switching library/tool/architecture or replacing automation with manual workaround.
 7. **Resume** only after selecting a plan and (when applicable) verifying it with a small test.
 
 ## Common mistakes

@@ -40,9 +40,18 @@ description: Use when editing an existing codebase and the goal is minimal, stan
 - **Purposeful and Focused Action**: Tool usage must be directly tied to the user's request. Do not perform unrelated searches or modifications. Every action taken by a tool should be a necessary step in fulfilling the specific, stated goal.
 - **Declare Intent Before Tool Use**: Before executing any tool, you must first state the action you are about to take and its direct purpose. This statement must be concise and immediately precede the tool call.
 
+## Avoid Over-Engineering
+
+- **Only make requested changes**: Don't add features, configurability, or "improvements" that weren't asked for. A bug fix doesn't need surrounding code cleaned up.
+- **Minimal error handling**: Don't add error handling, fallbacks, or validation for scenarios that can't happen or weren't specified.
+- **No premature abstraction**: Don't create helpers, utilities, or abstractions for one-time operations. Wait until there's actual duplication.
+- **Reuse existing code (DRY)**: Before creating something new, check if an existing utility or abstraction already handles it. Use what's already there.
+
 ## Quick checklist
 
 - Ensure a research subagent has read the relevant files (with citations) before any changes
 - Make the smallest diff that satisfies the requirement
 - Prefer existing utilities/abstractions over adding new ones
 - Avoid new dependencies unless clearly justified
+- Don't add unrequested features or "improvements"
+- Skip error handling for impossible scenarios

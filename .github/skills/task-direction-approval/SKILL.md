@@ -43,4 +43,4 @@ Which approach would you prefer?"
 
 ## Notes
 
-- Use `investigation-mode` when there are repeated failures or the situation is unclear.
+- Use `investigation-mode` skill when there are repeated failures or the situation is unclear.

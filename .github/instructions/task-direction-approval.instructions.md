@@ -3,41 +3,32 @@ applyTo: '**'
 description: 'Prevents unauthorized direction changes by requiring user approval before deviating from original requirements.'
 ---
 
-# Task Direction Approval Guidelines
+# Task Direction Approval
 
-## Core Principle: No Direction Changes Without User Consent
+## Core Rule
 
-### When User Approval is Required
+**Direction changes REQUIRE user approval**
 
-**NEVER do without asking:**
-- Switch from original tech/library to alternatives
-- Replace automated approach with manual workarounds
-- Change architecture or design patterns
-- Deliver different results than requested
+## When Approval Required
 
-**ALWAYS do before changing direction:**
-1. Analyze failure root cause clearly
-2. Explain situation to user transparently
-3. Present multiple solution options
-4. Wait for user's explicit choice
+**NEVER without asking:**
+- Switch tech/library
+- Replace automated → manual workaround
+- Change architecture
+- Deliver different results
 
-### Communication Protocol
+**Process:**
+1. Explain root cause
+2. Present 2-3 options with trade-offs
+3. Wait for user choice
 
-See the `task-direction-approval` skill for reusable communication templates and examples.
+## Exceptions (OK to change immediately)
 
-### Exception Cases
+- Fix obvious typos
+- Correct configuration mistakes
+- User says "any method is fine"
 
-**OK to change immediately:**
-- Fix obvious typos or syntax errors
-- Correct clear configuration mistakes
-- User explicitly says "any method is fine"
+## Related Skills
 
-**Must ask user first:**
-- Switch libraries/frameworks
-- Change architectural patterns
-- Impact performance/security
-- Affect maintainability
-
-### Failure Response Rules
-
-See the `investigation-mode` skill for the repeated-failure stop rule and investigation workflow.
+- Detailed templates & examples: `task-direction-approval` skill
+- Failure response workflow: `investigation-mode` skill
