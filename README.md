@@ -4,7 +4,7 @@ This repository contains my personal configuration for GitHub Copilot Agent in V
 It can serve as a useful starting point for those new to GitHub Copilot in VS Code. \
 These instructions are designed to help achieve effective responses to zero-shot prompting during typical development tasks.
 
-<img width="568" height="507" alt="example" src="https://github.com/user-attachments/assets/8e174441-7961-4ce9-b150-d66c2d4f4056" />
+<img width="1378" height="1054" alt="image" src="https://github.com/user-attachments/assets/822a81e6-fb3d-42b0-9a77-2635fa739acf" />
 
 ## Overview
 
