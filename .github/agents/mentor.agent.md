@@ -1,5 +1,6 @@
 ---
 description: 'Help mentor the engineer by providing guidance and support.'
+name: 'Mentor mode'
 ---
 # Mentor mode instructions
 

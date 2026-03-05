@@ -6,6 +6,14 @@ These instructions are designed to help achieve effective responses to zero-shot
 
 <img width="1378" height="1054" alt="image" src="https://github.com/user-attachments/assets/822a81e6-fb3d-42b0-9a77-2635fa739acf" />
 
+## Environment
+
+- **VS Code**: Version 1.110.0
+- Required MCP commands: `npx`, `docker`, `uvx`
+- Tested models: `Claude Sonnet 4.6`
+
+> **Note**: Behavior may vary depending on the model. Each model interprets instructions and context differently.
+
 ## Overview
 
 - `.github`
@@ -17,31 +25,20 @@ These instructions are designed to help achieve effective responses to zero-shot
   - [.vscode/mcp.json](.vscode/mcp.json): Default MCP server configuration
   - [.vscode/settings.json](.vscode/settings.json): Default VS Code settings
 
-## Environment
-
-- **VS Code**: Version 1.108.x
-- Required MCP commands: `npx`, `docker`, `uvx`
-- Tested models: `Claude Opus 4.5`, `Claude Sonnet 4.5`, `GPT-5.2`
-
-> **Note**: Behavior may vary depending on the model. Each model interprets instructions and context differently.
-
 ## Configuration Files
 
 ### Custom Instructions
 
-- [copilot-agent.instructions.md](.github/instructions/copilot-agent.instructions.md): 6-phase execution protocol with SSOT hierarchy, quality standards, and no-assumption rules
-- [subagents.instructions.md](.github/instructions/subagents.instructions.md): SSOT defining forbidden MCP calls, delegation rules, and Context Package contract
-- [taming-copilot.instructions.md](.github/instructions/taming-copilot.instructions.md): User directive priority, code-on-request-only, and direct/concise response philosophy
-- [task-direction-approval.instructions.md](.github/instructions/task-direction-approval.instructions.md): Mandatory user consent before tech/architecture changes with failure-to-options protocol
+- [copilot-agent.instructions.md](.github/instructions/copilot-agent.instructions.md): Single Source of Truth — enforces 3 mandatory behaviors (sequential-thinking, skill gate, subagent delegation) on every response, with a 6-phase execution protocol and forbidden call rules
 
 ### Agent Skills
 
-- [investigation-mode](.github/skills/investigation-mode/SKILL.md): Pause implementation after 2+ consecutive failures, switch to root-cause analysis before resuming
-- [minimalist-surgical-development](.github/skills/minimalist-surgical-development/SKILL.md): Smallest diff first, standard libraries preferred, no unsolicited refactoring
-- [root-cause-tracing](.github/skills/root-cause-tracing/SKILL.md): Trace bugs backward through call stack to find the original trigger, not the symptom
-- [task-direction-approval](.github/skills/task-direction-approval/SKILL.md): Explain failure cause, present 2-3 options with trade-offs, wait for explicit user choice
-- [uncertainty-verification](.github/skills/uncertainty-verification/SKILL.md): Verify exact commands/configs/APIs via official docs before stating - no assumption-based specifics
-- [verification-before-completion](.github/skills/verification-before-completion/SKILL.md): Run verification commands and confirm output before any completion claims - evidence before assertions
+- [investigation-mode](.github/skills/investigation-mode/SKILL.md): Stops implementation when the same failure recurs after 2+ fix attempts, switches to evidence-first root-cause analysis, and only resumes once a verified plan is in place
+- [minimalist-surgical-development](.github/skills/minimalist-surgical-development/SKILL.md): Keeps changes as small as possible — prefers existing utilities, avoids new abstractions, and never refactors code that wasn't part of the original request
+- [root-cause-tracing](.github/skills/root-cause-tracing/SKILL.md): Traces a bug backward through the call stack or data propagation chain to find where it actually originates, rather than patching where it surfaces
+- [task-direction-approval](.github/skills/task-direction-approval/SKILL.md): When a change in direction is needed (different library, new dependency, architectural shift, or alternative approach), explains the root cause, offers 2–3 options with trade-offs, and waits for explicit user approval before proceeding
+- [uncertainty-verification](.github/skills/uncertainty-verification/SKILL.md): Looks up exact command flags, config keys, API paths, and version-specific behavior in official documentation before stating them — never relies on assumed or remembered specifics
+- [verification-before-completion](.github/skills/verification-before-completion/SKILL.md): Requires running the relevant verification commands and confirming their output before claiming that any work is complete or fixed — evidence first, always
 
 ### Custom Agents
 
@@ -54,11 +51,12 @@ These instructions are designed to help achieve effective responses to zero-shot
 - [Custom Agents](https://code.visualstudio.com/docs/copilot/customization/custom-agents)
 - [Prompt Files](https://code.visualstudio.com/docs/copilot/customization/prompt-files)
 - [Agent Skills](https://code.visualstudio.com/docs/copilot/customization/agent-skills)
+- [Agent Hooks](https://code.visualstudio.com/docs/copilot/customization/hooks)
+- [Agent Plugins](https://code.visualstudio.com/docs/copilot/customization/agent-plugins)
 
 ## Links
 
 - [Awesome GitHub Copilot](https://github.com/github/awesome-copilot)
-- [Spec-Driven Development](https://github.com/github/spec-kit)
-- [Awesome Claude Skills](https://github.com/ComposioHQ/awesome-claude-skills)
+- [GitHub Copilot plugins](https://github.com/github/copilot-plugins)
 - [GitHub Copilot CLI](https://github.com/github/copilot-cli)
-- [GitHub Agentic Workflows](https://github.com/githubnext/gh-aw)
+- [GitHub Agentic Workflows](https://github.com/github/gh-aw)

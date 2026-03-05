@@ -1,24 +1,45 @@
 {
   "editor.aiStats.enabled": true,
+  "workbench.browser.enableChatTools": true,
 
   "chat.agent.maxRequests": 125,
+  "chat.customAgentInSubagent.enabled": true,
+  "chat.useClaudeHooks": true,
   "chat.useAgentSkills": true,
   "chat.useAgentsMdFile": true,
   "chat.useNestedAgentsMdFiles": true,
-  "chat.customAgentInSubagent.enabled": true,
 
+  "chat.exploreAgent.defaultModel": "Claude Haiku 4.5 (copilot)",
+  "chat.planAgent.defaultModel": "Claude Sonnet 4.6 (copilot)",
+  "inlineChat.defaultModel": "Claude Sonnet 4.6 (copilot)",
   "inlineChat.enableV2": true,
+
+  "github.copilot.chat.languageContext.typescript.enabled": true,
+  "github.copilot.chat.languageContext.fix.typescript.enabled": true,
+  "github.copilot.chat.languageContext.inline.typescript.enabled": true,
   "github.copilot.nextEditSuggestions.enabled": true,
+  "github.copilot.nextEditSuggestions.extendedRange": true,
+
+  "github.copilot.chat.agent.autoFix": true,
+  "github.copilot.chat.agent.omitFileAttachmentContents": true,
+  "github.copilot.chat.copilotMemory.enabled": true,
   "github.copilot.chat.newWorkspace.useContext7": true,
   "github.copilot.chat.alternateGptPrompt.enabled": true,
   "github.copilot.chat.codesearch.enabled": true,
+  "github.copilot.chat.searchSubagent.enabled": true,
   "github.copilot.chat.scopeSelection": true,
 
-  "github.copilot.chat.useResponsesApi": true,
   "github.copilot.chat.responsesApiReasoningEffort": "high",
   "github.copilot.chat.responsesApiReasoningSummary": "detailed",
   "github.copilot.chat.cli.customAgents.enabled": true,
   "github.copilot.chat.cli.mcp.enabled": true,
   "github.copilot.chat.githubMcpServer.enabled": true,
-  "github.copilot.chat.githubMcpServer.readonly": true
+  "github.copilot.chat.githubMcpServer.readonly": true,
+
+  //#region
+  // This setting has an application scope and can only be set in the settings file from the Default profile.
+  "chat.tips.enabled": true,
+  "chat.plugins.marketplaces": ["anthropics/claude-code"],
+  "simpleBrowser.useIntegratedBrowser": true
+  //#endregion
 }

@@ -1,6 +1,6 @@
 ---
 name: minimalist-surgical-development
-description: Use when editing an existing codebase and the goal is minimal, standard, and non-invasive changes - prioritizes simplest solution, standard libraries first, and surgical modification without unsolicited refactors
+description: Use when the user requests minimal or surgical changes, or when you catch yourself about to add unsolicited refactors, new abstractions, or features beyond the stated request — enforces simplest solution, standard libraries first, no over-engineering
 ---
 
 # Minimalist & Surgical Development
@@ -33,13 +33,6 @@ description: Use when editing an existing codebase and the goal is minimal, stan
 - **Explicit Instructions Only**: Only modify, refactor, or delete code that has been explicitly targeted by the user's request. Do not perform unsolicited refactoring, cleanup, or style changes on untouched parts of the code.
 - **Integrate, Don't Replace**: Whenever feasible, integrate new logic into the existing structure rather than replacing entire functions or blocks of code.
 
-## Intelligent Tool Usage
-
-- **Use Tools When Necessary (via subagents)**: When a request requires external information or direct interaction with the environment, dispatch an appropriate subagent to use the necessary tools and return a cited Context Package. The orchestrator must not perform investigation/data-fetching I/O directly.
-- **Directly Edit Code When Requested (via subagents)**: If explicitly asked to modify/refactor/add code, dispatch an implementation subagent to apply the changes directly in the codebase. Avoid copy/paste snippets unless requested; default to a small, surgical diff implemented by the subagent.
-- **Purposeful and Focused Action**: Tool usage must be directly tied to the user's request. Do not perform unrelated searches or modifications. Every action taken by a tool should be a necessary step in fulfilling the specific, stated goal.
-- **Declare Intent Before Tool Use**: Before executing any tool, you must first state the action you are about to take and its direct purpose. This statement must be concise and immediately precede the tool call.
-
 ## Avoid Over-Engineering
 
 - **Only make requested changes**: Don't add features, configurability, or "improvements" that weren't asked for. A bug fix doesn't need surrounding code cleaned up.
@@ -49,7 +42,6 @@ description: Use when editing an existing codebase and the goal is minimal, stan
 
 ## Quick checklist
 
-- Ensure a research subagent has read the relevant files (with citations) before any changes
 - Make the smallest diff that satisfies the requirement
 - Prefer existing utilities/abstractions over adding new ones
 - Avoid new dependencies unless clearly justified

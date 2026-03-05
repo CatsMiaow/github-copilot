@@ -16,7 +16,7 @@ This skill forces verification before stating any specific technical detail that
 - The request involves **standards/specs** (RFCs, protocol behavior, i18n/timezone/locale rules)
 - The user asks for **exact file paths**, naming conventions, or directory structures
 - The answer requires **library-specific APIs** (class names, method signatures, constants)
-- Any part of the response would otherwise be based on “typical patterns” or memory
+- The specific detail (syntax, path, flag, version) could have changed since training or varies by environment
 
 ## Symptoms / keywords
 
