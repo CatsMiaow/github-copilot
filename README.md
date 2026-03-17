@@ -8,7 +8,7 @@ These instructions are designed to help achieve effective responses to zero-shot
 
 ## Environment
 
-- **VS Code**: Version 1.110.0
+- **VS Code**: Version 1.111
 - Required MCP commands: `npx`, `docker`, `uvx`
 - Tested models: `Claude Sonnet 4.6`
 
@@ -29,7 +29,8 @@ These instructions are designed to help achieve effective responses to zero-shot
 
 ### Custom Instructions
 
-- [copilot-agent.instructions.md](.github/instructions/copilot-agent.instructions.md): Single Source of Truth — enforces 3 mandatory behaviors (sequential-thinking, skill gate, subagent delegation) on every response, with a 6-phase execution protocol and forbidden call rules
+- [copilot-agent.instructions.md](.github/instructions/copilot-agent.instructions.md): Single Source of Truth — enforces 3 mandatory behaviors (sequential-thinking, skill gate, subagent delegation) on every response, with a 5-phase execution protocol and forbidden call rules
+- [subagent-templates.instructions.md](.github/instructions/subagent-templates.instructions.md): Reference for subagents — Context Package contract, Sequential vs. Parallel decision guide, and copy-paste prompt templates for research and implementation subagents
 
 ### Agent Skills
 

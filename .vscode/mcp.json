@@ -15,11 +15,6 @@
       "command": "docker",
       "args": ["run", "-i", "--rm", "mcp/fetch"]
     },
-    "memory": {
-      "type": "stdio",
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-memory"]
-    },
     "serena": {
       "type": "stdio",
       "command": "uvx",

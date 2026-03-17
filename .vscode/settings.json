@@ -2,12 +2,15 @@
   "editor.aiStats.enabled": true,
   "workbench.browser.enableChatTools": true,
 
+  "chat.autopilot.enabled": true,
   "chat.agent.maxRequests": 125,
-  "chat.customAgentInSubagent.enabled": true,
-  "chat.useClaudeHooks": true,
-  "chat.useAgentSkills": true,
+  "chat.useClaudeMdFile": true,
   "chat.useAgentsMdFile": true,
   "chat.useNestedAgentsMdFiles": true,
+  "chat.customAgentInSubagent.enabled": true,
+  "chat.useAgentSkills": true,
+  "chat.useClaudeHooks": true,
+  "chat.useCustomAgentHooks": true,
 
   "chat.exploreAgent.defaultModel": "Claude Haiku 4.5 (copilot)",
   "chat.planAgent.defaultModel": "Claude Sonnet 4.6 (copilot)",
