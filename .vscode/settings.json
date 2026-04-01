@@ -2,18 +2,40 @@
   "editor.aiStats.enabled": true,
   "workbench.browser.enableChatTools": true,
 
-  "chat.autopilot.enabled": true,
   "chat.agent.maxRequests": 125,
-  "chat.useClaudeMdFile": true,
+  "chat.useCustomAgentHooks": true,
+  "chat.customAgentInSubagent.enabled": true,
+  "chat.subagents.allowInvocationsFromSubagents": true,
+  "chat.useCustomizationsInParentRepositories": true,
+
+  "chat.useAgentSkills": true,
   "chat.useAgentsMdFile": true,
   "chat.useNestedAgentsMdFiles": true,
-  "chat.customAgentInSubagent.enabled": true,
-  "chat.useAgentSkills": true,
+
+  //#region claude on/off
   "chat.useClaudeHooks": true,
-  "chat.useCustomAgentHooks": true,
+  "chat.useClaudeMdFile": true,
+  "chat.agentFilesLocations": {
+    ".claude/agents": true,
+    "~/.claude/agents": true
+  },
+  "chat.agentSkillsLocations": {
+    ".claude/skills": true,
+    "~/.claude/skills": true,
+  },
+  "chat.hookFilesLocations": {
+    ".claude/settings.local.json": true,
+    ".claude/settings.json": true,
+    "~/.claude/settings.json": true,
+  },
+  "chat.instructionsFilesLocations": {
+    ".claude/rules": true,
+    "~/.claude/rules": true,
+  },
+  //#endregion
 
   "chat.exploreAgent.defaultModel": "Claude Haiku 4.5 (copilot)",
-  "chat.planAgent.defaultModel": "Claude Sonnet 4.6 (copilot)",
+  "chat.planAgent.defaultModel": "Claude Opus 4.6 (copilot)",
   "inlineChat.defaultModel": "Claude Sonnet 4.6 (copilot)",
   "inlineChat.enableV2": true,
 
@@ -24,7 +46,11 @@
   "github.copilot.nextEditSuggestions.extendedRange": true,
 
   "github.copilot.chat.agent.autoFix": true,
+  "github.copilot.chat.agent.largeToolResultsToDisk.enabled": true,
   "github.copilot.chat.agent.omitFileAttachmentContents": true,
+  "github.copilot.chat.agentDebugLog.enabled": true,
+  "github.copilot.chat.agentDebugLog.fileLogging.enabled": true,
+
   "github.copilot.chat.copilotMemory.enabled": true,
   "github.copilot.chat.newWorkspace.useContext7": true,
   "github.copilot.chat.alternateGptPrompt.enabled": true,
@@ -32,17 +58,19 @@
   "github.copilot.chat.searchSubagent.enabled": true,
   "github.copilot.chat.scopeSelection": true,
 
-  "github.copilot.chat.responsesApiReasoningEffort": "high",
+  "github.copilot.chat.responsesApiContextManagement.enabled": false,
   "github.copilot.chat.responsesApiReasoningSummary": "detailed",
-  "github.copilot.chat.cli.customAgents.enabled": true,
   "github.copilot.chat.cli.mcp.enabled": true,
+  "github.copilot.chat.cli.forkSessions.enabled": true,
   "github.copilot.chat.githubMcpServer.enabled": true,
   "github.copilot.chat.githubMcpServer.readonly": true,
+
+  "github.copilot.chat.claudeAgent.enabled": true,
+  "github.copilot.chat.claudeAgent.allowDangerouslySkipPermissions": true,
 
   //#region
   // This setting has an application scope and can only be set in the settings file from the Default profile.
   "chat.tips.enabled": true,
-  "chat.plugins.marketplaces": ["anthropics/claude-code"],
-  "simpleBrowser.useIntegratedBrowser": true
+  "chat.plugins.marketplaces": ["anthropics/claude-code"]
   //#endregion
 }
