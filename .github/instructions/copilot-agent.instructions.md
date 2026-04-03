@@ -83,10 +83,8 @@ applyTo: '**'
 ```
 🧠 **PRE-WORK STATUS**
 - [✅/❌] Sequential-thinking: {reason}
-- [✅/❌] Skill Gate [YES: N | read_file: N — must match]: List EVERY skill:
-  - `skill-name`: NO — not relevant
+- [✅/❌] Skill Gate [YES: N | read_file: N — must match]: YES skills only (NO items omitted):
   - `skill-name`: YES — reason [read_file ✅ / attached ✅]
-  - *(ALL skills from `<skills>` list — no exceptions)*
 - [✅/⏭️] Subagent: {task / skip reason} [Package: path]
 ```
 
@@ -114,9 +112,10 @@ Execute `mcp_sequential-th_sequentialthinking` NOW. This step is NEVER optional.
 
 ```text
 1. LIST: Write out every skill name from <skills>
-2. EVALUATE: For **each skill in the list**, write `[skill-name]: YES/NO — one-line reason` — ALL skills, no skipping
+2. EVALUATE: For **each skill in the list**, determine YES or NO — ALL skills must be evaluated internally, no skipping
    YES criteria: skill description matches the domain, task type, or keywords in the current request
    NO criteria: skill is clearly unrelated to the current request
+   OUTPUT: In the PRE-WORK STATUS, list **only YES skills**; omit NO items entirely
 3. COUNT: Tally YES verdicts → this number = required `read_file` calls. If they diverge, it is a VIOLATION.
 4. ACTIVATE: For every YES verdict → call read_file(<file> path) IMMEDIATELY, in parallel when multiple YES — DO NOT defer
 5. BLOCK: Do not proceed to any other work until all YES skill files are read
