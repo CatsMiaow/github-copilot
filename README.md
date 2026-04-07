@@ -53,6 +53,16 @@ npx skills add mcollina/skills
 - [critical-thinking.agent.md](.github/agents/critical-thinking.agent.md): Question assumptions and guide toward optimal solutions
 - [mentor.agent.md](.github/agents/mentor.agent.md): Support engineer growth through critical questioning and mentorship
 
+## Recommended Workflows
+
+[get-shit-done](https://github.com/gsd-build/get-shit-done)
+
+```bash
+npx get-shit-done-cc@latest --copilot
+```
+
+After installing, verify with `/gsd-help` in Copilot chat.
+
 ## VS Code Documentation
 
 - [Custom Instructions](https://code.visualstudio.com/docs/copilot/customization/custom-instructions)
